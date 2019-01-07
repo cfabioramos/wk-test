@@ -1,28 +1,34 @@
 package com.br.test.wk.model;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
-@Entity
+import com.br.test.wk.constants.TipoRisco;
+
+@Entity(name="TB_CLIENTE_CREDITO")
 public class ClienteCreditoModel {
 
 	@Id
-	@Column(name="CD_CLIENTE")
+	@GeneratedValue
+	@Column(name="CD_CLIENTE_CREDITO")
 	private Long id;
 	
-	@Column(name="NOME_CLIENTE")
+	@Column(name="NM_CLIENTE")
 	private String nome;
 	
 	@Column(name="LIMITE_CREDITO")
 	private Double valorLimiteCredito;
 	
-	@OneToMany(mappedBy="clienteCreditoModel", cascade = CascadeType.ALL)
-	private List<RiscoCreditoModel> tiposRisco;
+	@Enumerated(EnumType.STRING)
+    @Column(name="TP_RISCO", unique = true)
+	private TipoRisco tipoRisco;
+	
+	@Column(name="TX_JUROS")
+	private Integer taxaJuros;
 
 	public Long getId() {
 		return id;
@@ -48,17 +54,26 @@ public class ClienteCreditoModel {
 		this.valorLimiteCredito = valorLimiteCredito;
 	}
 	
-	public List<RiscoCreditoModel> getTiposRisco() {
-		return tiposRisco;
+	public TipoRisco getTipoRisco() {
+		return tipoRisco;
 	}
-
-	public void setTiposRisco(List<RiscoCreditoModel> tiposRisco) {
-		this.tiposRisco = tiposRisco;
+	
+	public void setTipoRisco(TipoRisco tipoRisco) {
+		this.tipoRisco = tipoRisco;
 	}
-
+	
+	public Integer getTaxaJuros() {
+		return taxaJuros;
+	}
+	
+	public void setTaxaJuros(Integer taxaJuros) {
+		this.taxaJuros = taxaJuros;
+	}
+	
 	@Override
 	public String toString() {
-		return "ClienteCreditoModel [id=" + id + ", nome=" + nome + ", valorLimiteCredito=" + valorLimiteCredito + "]";
+		return "ClienteCreditoModel [id=" + id + ", nome=" + nome + ", valorLimiteCredito=" + valorLimiteCredito
+				+ ", tipoRisco=" + tipoRisco + ", taxaJuros=" + taxaJuros + "]";
 	}
 
 	@Override
